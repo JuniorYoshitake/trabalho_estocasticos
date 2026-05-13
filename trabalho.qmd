@@ -1,0 +1,210 @@
+---
+title: ""
+author: ""
+date: ""
+
+title-block: false
+toc: false
+number-sections: true
+
+lang: pt-BR
+
+bibliography: referencias.bib
+csl: abnt.csl
+
+format:
+  pdf:
+    pdf-engine: lualatex
+    documentclass: article
+    papersize: a4
+    fontsize: 12pt
+
+    geometry:
+      - left=3cm
+      - top=3cm
+      - right=2cm
+      - bottom=2cm
+
+    colorlinks: true
+
+    fig-cap-location: bottom
+
+    include-in-header:
+      text: |
+
+        % ------------------------------------------------
+        % Matemática
+        % ------------------------------------------------
+        \usepackage{amsmath}
+        \numberwithin{equation}{subsection}
+
+        % ------------------------------------------------
+        % Estilo e layout
+        % ------------------------------------------------
+        \usepackage{fancyhdr}
+        \usepackage{colortbl}
+        \usepackage{titletoc}
+        \usepackage{titlesec}
+        \usepackage{setspace}
+        \usepackage{indentfirst}
+        \usepackage{multirow}
+        \usepackage{float}
+        \usepackage{booktabs}
+        \usepackage{enumitem}
+        \usepackage{quoting}
+        \usepackage{epigraph}
+        \usepackage{adjustbox}
+        \usepackage{bm}
+        \usepackage{subcaption}
+
+        % ------------------------------------------------
+        % Bibliografia ABNT
+        % ------------------------------------------------
+        \usepackage[alf]{abntex2cite}
+
+        % ------------------------------------------------
+        % Configurações gerais
+        % ------------------------------------------------
+        \raggedbottom
+
+        % ------------------------------------------------
+        % Ambientes matemáticos
+        % ------------------------------------------------
+        \newtheorem{teo}{Teorema}[section]
+        \newtheorem{lema}[teo]{Lema}
+        \newtheorem{cor}[teo]{Corolário}
+        \newtheorem{prop}[teo]{Proposição}
+        \newtheorem{defi}{Definição}
+        \newtheorem{exem}{Exemplo}
+
+        % ------------------------------------------------
+        % Comando personalizado
+        % ------------------------------------------------
+        \newcommand{\mat}[1]{\mathbf{#1}}
+
+        % ------------------------------------------------
+        % Cabeçalho
+        % ------------------------------------------------
+        \pagestyle{fancy}
+        \fancyhf{}
+
+        \setlength{\headheight}{16pt}
+
+        \fancyhead[RO, LE]{\thepage}
+        \fancyhead[RE, LO]{\nouppercase{\emph{\leftmark}}}
+
+        \renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+        % ------------------------------------------------
+        % Sumário
+        % ------------------------------------------------
+        \titlecontents{section}
+          [0cm]
+          {}
+          {\bfseries\contentslabel{2em}}
+          {}
+          {\titlerule*[.75pc]{.}\contentspage}
+
+        \titlecontents{subsection}
+          [0.75cm]
+          {}
+          {\contentslabel{2em}}
+          {}
+          {\titlerule*[.75pc]{.}\contentspage}
+
+        % ------------------------------------------------
+        % Espaçamento
+        % ------------------------------------------------
+        \onehalfspacing
+
+        \setlength{\parindent}{1.5cm}
+        \setlength{\parskip}{0.2cm}
+        \setlength{\intextsep}{0.5cm}
+
+        % ------------------------------------------------
+        % Títulos
+        % ------------------------------------------------
+        \titlespacing*{\section}{0cm}{0cm}{0.5cm}
+        \titlespacing*{\subsection}{0cm}{0.5cm}{0.5cm}
+        \titlespacing*{\subsubsection}{0cm}{0.5cm}{0.5cm}
+        \titlespacing*{\paragraph}{0cm}{0.5cm}{0.5cm}
+
+        \titleformat{\paragraph}
+          {\normalfont\normalsize\bfseries}
+          {\theparagraph}
+          {1em}
+          {}
+
+---
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{1cm}
+
+\includegraphics[scale = 1.0]{imagens/unb.png}
+
+\vspace{1cm}
+
+{\bf \large Universidade de Brasília \\
+Departamento de Estatística}
+
+\vspace{5cm}
+
+{\Large \textbf{Processos Estocásticos}}
+
+\vspace{2.5cm}
+
+{\large Carlos Cesár Yoshitake Júnior,} \\
+{\large Gabriel Leonardo Fadul de Oliveira,} \\
+{\large Luísa Olhoa Chaves Padula}
+
+\end{center}
+
+\vspace{1.5cm}
+
+\begin{flushright}
+\begin{minipage}{7.5cm}
+O Processo de Wiener e a Teoria do Movimento Aleatório.
+\end{minipage}
+\end{flushright}
+
+\vspace{3.25cm}
+
+\begin{center}
+{\bf Brasília} \\
+{\bf 2026}
+\end{center}
+
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\onehalfspacing
+
+# Resumo e Palavras-Chave
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pretium urna eu risus lacinia porttitor. Morbi ac cursus libero. Praesent eleifend facilisis ante eu convallis. Cras volutpat egestas iaculis. Nulla ex arcu, feugiat vitae fringilla id, dictum eget sem. Nullam quis bibendum justo. Suspendisse potenti. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent id ornare arcu. Morbi venenatis quis arcu nec semper. Etiam quis arcu lacus. Integer eleifend mi justo, tincidunt malesuada eros ultrices non. Nullam pretium ante ut odio dapibus aliquam. Vestibulum id libero placerat, malesuada turpis quis, malesuada metus. Curabitur maximus, tortor non consequat porta, purus nisl blandit ipsum, sed ultrices libero velit pretium risus. Vivamus eleifend ut tortor non dictum.
+
+# Introdução
+
+Nam justo sapien, egestas eu ligula at, laoreet pulvinar erat. Suspendisse ac mauris ut sapien consequat tincidunt in ac quam. Nulla tincidunt gravida lectus ac vestibulum. Aliquam tristique lorem in malesuada posuere. Quisque sagittis fermentum ante, ullamcorper dignissim lorem faucibus non. Sed sodales in dui eget luctus. Vivamus eget orci consectetur, laoreet enim a, vestibulum nisi. Praesent eget convallis libero. Nam laoreet purus at diam feugiat, ornare efficitur odio semper. Mauris ac ipsum vitae elit bibendum facilisis. Segundo @teste2026estocasticos, o processo de amostragem é fundamental para inferência estatística.
+
+# Metodologia
+
+Integer dapibus justo nunc, eget convallis ipsum porta ut. Donec mattis nunc eget euismod maximus. Aenean sed congue nulla. Ut consequat justo et facilisis commodo. Praesent vitae hendrerit sapien. Integer accumsan vel quam id placerat. Phasellus tristique mi id nisi semper venenatis. Estudos recentes reforçam essa abordagem @oliveira2023montecarlo.
+
+# Resultados
+
+In quis consequat arcu. Phasellus dapibus elementum velit, ac malesuada neque congue sit amet. In augue dui, iaculis sit amet leo non, luctus porttitor odio. Sed sit amet libero non lectus consectetur varius ut quis sapien. Etiam et sapien at tellus vehicula semper. Nullam ac urna in nibh pulvinar scelerisque non ultrices velit. Donec mollis sodales dolor, non sodales nulla malesuada id. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras dapibus ante non varius consectetur. Pellentesque in lectus magna. Sed venenatis nisi nisi, et cursus ante porttitor quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis orci elit, elementum eu nisl quis, consequat aliquet lorem. Vestibulum et iaculis enim.
+
+# Considerações Finais
+
+Etiam gravida lacinia enim, sit amet fermentum ex varius eget. Nullam vulputate tristique libero, ut luctus nisl. Duis vulputate, lectus quis blandit condimentum, ante diam scelerisque tortor, quis facilisis erat dui quis ipsum. Quisque aliquet enim efficitur lorem pellentesque dapibus. Donec mollis sem leo. Donec ultrices, tortor et porttitor commodo, nulla libero venenatis neque, ut suscipit turpis nibh in leo. Etiam nec tristique est. Fusce vel sapien malesuada mauris commodo accumsan non sit amet velit. Proin ac turpis nec ipsum bibendum consequat eget a lacus. Praesent euismod dignissim sem. Donec ullamcorper viverra purus quis ornare. Aliquam volutpat ut magna nec finibus. Donec ac commodo mauris, id aliquam nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris efficitur vehicula arcu, non convallis risus aliquam sed. Maecenas eu auctor neque.
+
+# Referências
+
+::: {#refs}
+:::
