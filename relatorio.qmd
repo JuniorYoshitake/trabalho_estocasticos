@@ -7,8 +7,6 @@ title-block: false
 toc: false
 number-sections: true
 
-lang: pt-BR
-
 bibliography: referencias.bib
 csl: abnt.csl
 
@@ -31,6 +29,13 @@ format:
 
     include-in-header:
       text: |
+
+        % ------------------------------------------------
+        % Língua
+        % ------------------------------------------------
+        \usepackage{polyglossia}
+        \setmainlanguage{portuguese}
+        \PolyglossiaSetup{portuguese}{variant=brazilian}
 
         % ------------------------------------------------
         % Matemática
@@ -56,11 +61,6 @@ format:
         \usepackage{adjustbox}
         \usepackage{bm}
         \usepackage{subcaption}
-
-        % ------------------------------------------------
-        % Bibliografia ABNT
-        % ------------------------------------------------
-        \usepackage[alf]{abntex2cite}
 
         % ------------------------------------------------
         % Configurações gerais
@@ -184,27 +184,136 @@ O Processo de Wiener e a Teoria do Movimento Aleatório.
 
 \onehalfspacing
 
+
 # Resumo e Palavras-Chave
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pretium urna eu risus lacinia porttitor. Morbi ac cursus libero. Praesent eleifend facilisis ante eu convallis. Cras volutpat egestas iaculis. Nulla ex arcu, feugiat vitae fringilla id, dictum eget sem. Nullam quis bibendum justo. Suspendisse potenti. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent id ornare arcu. Morbi venenatis quis arcu nec semper. Etiam quis arcu lacus. Integer eleifend mi justo, tincidunt malesuada eros ultrices non. Nullam pretium ante ut odio dapibus aliquam. Vestibulum id libero placerat, malesuada turpis quis, malesuada metus. Curabitur maximus, tortor non consequat porta, purus nisl blandit ipsum, sed ultrices libero velit pretium risus. Vivamus eleifend ut tortor non dictum.
+RESUMO DO PROJETO AQUI...
+
+**Palavras-chave:** Processo de Wiener; Processos Estocásticos; Movimento Geométrico Browniano; Finanças Quantitativas; Simulação Estocástica.
+
+\newpage
 
 # Introdução
 
-Nam justo sapien, egestas eu ligula at, laoreet pulvinar erat. Suspendisse ac mauris ut sapien consequat tincidunt in ac quam. Nulla tincidunt gravida lectus ac vestibulum. Aliquam tristique lorem in malesuada posuere. Quisque sagittis fermentum ante, ullamcorper dignissim lorem faucibus non. Sed sodales in dui eget luctus. Vivamus eget orci consectetur, laoreet enim a, vestibulum nisi. Praesent eget convallis libero. Nam laoreet purus at diam feugiat, ornare efficitur odio semper. Mauris ac ipsum vitae elit bibendum facilisis. Segundo @teste2026estocasticos, o processo de amostragem é fundamental para inferência estatística.
+[contexto (mercados financeiros e incerteza)]
+
+[justificativa (por que modelar com processos estocásticos?)]
+
+[objetivos do trabalho]
+
+Os mercados financeiros são caracterizados pela presença constante de incerteza: o preço de um ativo no instante seguinte é, por natureza, uma grandeza aleatória, influenciada por fatores macroeconômicos, expectativas dos agentes e choques externos imprevisíveis. Diante dessa realidade, a modelagem matemática dos preços por meio de processos estocásticos torna-se uma ferramenta indispensável para a análise e gestão de risco em finanças.
+
+[justificativa específica para a escolha do MGB]
+
+O presente trabalho tem por objetivo introduzir o Movimento Geométrico Browniano, demonstrar suas propriedades por meio de simulação computacional e verificar a aderência do modelo a dados históricos reais de [ATIVO A DEFINIR].
+
+\newpage
 
 # Metodologia
 
-Integer dapibus justo nunc, eget convallis ipsum porta ut. Donec mattis nunc eget euismod maximus. Aenean sed congue nulla. Ut consequat justo et facilisis commodo. Praesent vitae hendrerit sapien. Integer accumsan vel quam id placerat. Phasellus tristique mi id nisi semper venenatis. Estudos recentes reforçam essa abordagem @oliveira2023montecarlo.
+## Processos Estocásticos: conceitos fundamentais
+
+Um processo estocástico é uma coleção de variáveis aleatórias $\{X_t,\, t \in T\}$ indexadas pelo tempo, que descreve a evolução de uma grandeza sujeita a aleatoriedade. Formalmente:
+
+$$X = \{X(t),\; t \in T\}$$
+
+onde $X(t)$ é a variável aleatória no instante $t$. Quando o índice $t$ representa tempo contínuo, o processo é dito contínuo; quando assume valores discretos (diário, mensal etc.), é discreto. Em finanças, as cotações de ações constituem um exemplo natural de processo estocástico em tempo contínuo.
+
+## Processo de Markov
+
+O processo estocástico mais utilizado para modelar variáveis financeiras é o Processo de Markov. Sua propriedade fundamental é que toda a informação relevante para prever o valor futuro da variável está contida em seu valor presente — o histórico passado é irrelevante. Matematicamente, para qualquer instante futuro $t_{n+1}$ e valores passados $x_0, x_1, \ldots, x_n$:
+
+$$P\!\left(X_{t_{n+1}} = x \mid X_{t_n} = x_n,\; X_{t_{n-1}} = x_{n-1},\; \ldots,\; X_{t_0} = x_0\right) = P\!\left(X_{t_{n+1}} = x \mid X_{t_n} = x_n\right)$$
+
+Essa propriedade é consistente com a hipótese de mercado eficiente: se todos os preços passados já estão refletidos no preço atual, apenas este é relevante para a previsão do preço futuro.
+
+## Processo de Wiener
+
+O Processo de Wiener (ou Movimento Browniano Standard) é o processo de Markov em tempo contínuo mais fundamental. Um processo estocástico $\{W(t),\; t \geq 0\}$ é denominado Processo de Wiener se satisfaz as seguintes condições:
+
+1. $W(0) = 0$
+2. Os incrementos $W(t) - W(s)$, para $t > s \geq 0$, seguem distribuição normal com média zero e variância $t - s$:
+$$W(t) - W(s) \sim \mathcal{N}(0,\; t - s)$$
+3. Os incrementos em intervalos de tempo não sobrepostos são independentes entre si.
+
+O incremento infinitesimal é convencionalmente expresso como:
+
+$$dW = \varepsilon\sqrt{dt}, \qquad \varepsilon \sim \mathcal{N}(0, 1)$$
+
+de modo que $\mathbb{E}[dW] = 0$ e $\text{Var}(dW) = dt$.
+
+## Processo de Wiener Generalizado
+
+O Processo de Wiener Generalizado estende o processo anterior ao introduzir uma tendência determinística ($drift$) e uma escala de volatilidade:
+
+$$dX = a\,dt + b\,dW$$
+
+onde $a$ é o $drift$ (taxa de variação esperada por unidade de tempo) e $b > 0$ é o coeficiente de difusão (volatilidade). Esse processo possui:
+
+$$\mathbb{E}[dX] = a\,dt \qquad \text{e} \qquad \text{Var}(dX) = b^2\,dt$$
+
+## Processo de Itô
+
+O Processo de Itô generaliza o processo anterior ao permitir que o $drift$ e a volatilidade sejam funções do próprio valor da variável e do tempo:
+
+$$dX = \mu(X, t)\,dt + \sigma(X, t)\,dW$$
+
+Sua manipulação requer o Lema de Itô, pois as regras usuais do cálculo diferencial não se aplicam diretamente a processos com trajetórias não diferenciáveis. Para uma função suave $F(X, t)$, o Lema de Itô estabelece:
+
+$$dF = \left(\frac{\partial F}{\partial t} + \mu\frac{\partial F}{\partial X} + \frac{1}{2}\sigma^2\frac{\partial^2 F}{\partial X^2}\right)dt + \sigma\frac{\partial F}{\partial X}\,dW$$
+
+## Movimento Geométrico Browniano
+
+O Movimento Geométrico Browniano (MGB) é o caso particular do Processo de Itô em que o $drift$ e a volatilidade são proporcionais ao nível atual da variável, ou seja, $\mu(S,t) = \mu S$ e $\sigma(S,t) = \sigma S$:
+
+$$dS = \mu S\,dt + \sigma S\,dW$$
+
+Essa formulação implica que são os retornos do ativo, e não seus preços absolutos, que possuem distribuição normal — o que está em conformidade com a intuição financeira de que variações percentuais são mais relevantes do que variações absolutas.
+
+Aplicando o Lema de Itô à função $F = \ln S$, obtém-se a solução analítica do MGB:
+
+$$S(t) = S_0 \exp\!\left[\left(\mu - \frac{\sigma^2}{2}\right)t + \sigma W(t)\right]$$
+
+Consequentemente, os retornos logarítmicos em qualquer intervalo $[s, t]$ são normalmente distribuídos:
+
+$$\ln\!\left(\frac{S_t}{S_s}\right) \sim \mathcal{N}\!\left[\left(\mu - \frac{\sigma^2}{2}\right)(t-s),\;\; \sigma^2(t-s)\right]$$
+
+Esta é a propriedade central que será verificada empiricamente nas seções seguintes.
+
+## Estimação dos Parâmetros
+
+Os parâmetros $\mu$ e $\sigma$ são estimados diretamente a partir dos retornos logarítmicos diários observados $r_i = \ln(S_i / S_{i-1})$:
+
+$$\hat{\mu} = \frac{\bar{r}}{\Delta t} + \frac{\hat{\sigma}^2}{2}, \qquad \hat{\sigma} = \frac{s_r}{\sqrt{\Delta t}}$$
+
+onde $\bar{r}$ é a média amostral dos retornos, $s_r$ é o desvio padrão amostral e $\Delta t = 1/252$ corresponde a um dia útil.
+
+## Ferramentas Computacionais
+
+[descrever brevemente o ambiente R que utilizamos]
+[versão do R, pacotes (quantmod, ggplot2, etc.) e fonte dos dados]
+
+\newpage
 
 # Resultados
 
-In quis consequat arcu. Phasellus dapibus elementum velit, ac malesuada neque congue sit amet. In augue dui, iaculis sit amet leo non, luctus porttitor odio. Sed sit amet libero non lectus consectetur varius ut quis sapien. Etiam et sapien at tellus vehicula semper. Nullam ac urna in nibh pulvinar scelerisque non ultrices velit. Donec mollis sodales dolor, non sodales nulla malesuada id. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras dapibus ante non varius consectetur. Pellentesque in lectus magna. Sed venenatis nisi nisi, et cursus ante porttitor quis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Duis orci elit, elementum eu nisl quis, consequat aliquet lorem. Vestibulum et iaculis enim.
+## Estudo Simulado
+
+[inserir gráficos e tabela de parâmetros gerados pelo script.R]
+
+A simulação foi conduzida com os seguintes parâmetros: preço inicial $S_0 = \text{[VALOR]}$, $drift$ anual $\mu = \text{[VALOR]}$, volatilidade anual $\sigma = \text{[VALOR]}$, horizonte de [VALOR] anos e $n = 252$ passos (dias úteis).
+
+[trajetórias simuladas]
+
+[histograma dos retornos simulados vs curva normal]
+
+## Aplicação a Dados Reais
+
+\newpage
 
 # Considerações Finais
 
-Etiam gravida lacinia enim, sit amet fermentum ex varius eget. Nullam vulputate tristique libero, ut luctus nisl. Duis vulputate, lectus quis blandit condimentum, ante diam scelerisque tortor, quis facilisis erat dui quis ipsum. Quisque aliquet enim efficitur lorem pellentesque dapibus. Donec mollis sem leo. Donec ultrices, tortor et porttitor commodo, nulla libero venenatis neque, ut suscipit turpis nibh in leo. Etiam nec tristique est. Fusce vel sapien malesuada mauris commodo accumsan non sit amet velit. Proin ac turpis nec ipsum bibendum consequat eget a lacus. Praesent euismod dignissim sem. Donec ullamcorper viverra purus quis ornare. Aliquam volutpat ut magna nec finibus. Donec ac commodo mauris, id aliquam nibh. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris efficitur vehicula arcu, non convallis risus aliquam sed. Maecenas eu auctor neque.
-
-alteração teste 01
+\newpage
 
 # Referências
 
