@@ -164,8 +164,8 @@ for (j in 2:N) {
 }
 
 # Intervalo de confiança empírico (5% e 95%)
-ic_low  <- apply(trajetorias, 1, quantile, probs = 0.05)
-ic_high <- apply(trajetorias, 1, quantile, probs = 0.95)
+ic_low  <- apply(trajetorias, 1, quantile, probs = 0.05) 
+ic_high <- apply(trajetorias, 1, quantile, probs = 0.95) 
 
 polygon(c(datas, rev(datas)),
         c(ic_low, rev(ic_high)),
