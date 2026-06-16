@@ -115,3 +115,77 @@ curve(dnorm(x, mean = mean(retornos), sd = sd(retornos)),
       add = TRUE, col = "red", lwd = 2)
 
 par(mfrow = c(1, 1))
+
+
+### ------- 3. SIMULAÇÃO COM OS PARÂMETROS ------- ###
+
+set.seed(2026)
+
+### Parâmetros estimados
+mu    <- 0.1647
+sigma <- 0.3728
+dt    <- 1/252
+n     <- 1243
+S0    <- as.numeric(precos[1])
+
+### Simular N trajetórias
+N <- 200
+
+trajetorias <- matrix(NA, nrow = n, ncol = N)
+
+for (j in 1:N) {
+    S <- numeric(n)
+    S[1] <- S0
+    for (i in 2:n) {
+        S[i] <- S[i-1] * exp((mu - sigma^2/2) * dt + sigma * sqrt(dt) * rnorm(1))
+    }
+    trajetorias[, j] <- S}
+
+### Gráfico: trajetórias simuladas vs preço real
+
+datas <- index(precos)[1:n]
+
+# Limites do gráfico [OBS: eixo Y fixado no dobro do preço real máximo 
+# para evitar que trajetórias extremas distorçam a escala] 
+y_max <- max(as.numeric(precos)) * 2
+y_min <- 0
+
+# Fundo: trajetórias simuladas em cinza
+plot(datas, trajetorias[, 1], type = "l",
+     col = adjustcolor("gray60", alpha.f = 0.3),
+     ylim = c(y_min, y_max),
+     xlab = "", ylab = "Preço (R$)",
+     main = "VALE3 — Simulações MGB vs. Preço Real",
+     lwd = 0.8)
+
+for (j in 2:N) {
+    lines(datas, trajetorias[, j],
+          col = adjustcolor("gray60", alpha.f = 0.15), lwd = 0.8)
+}
+
+# Intervalo de confiança empírico (5% e 95%)
+ic_low  <- apply(trajetorias, 1, quantile, probs = 0.05)
+ic_high <- apply(trajetorias, 1, quantile, probs = 0.95)
+
+polygon(c(datas, rev(datas)),
+        c(ic_low, rev(ic_high)),
+        col = adjustcolor("steelblue", alpha.f = 0.15),
+        border = NA)
+
+lines(datas, ic_low,  col = "steelblue", lwd = 1.2, lty = 2)
+lines(datas, ic_high, col = "steelblue", lwd = 1.2, lty = 2)
+
+# Mediana das simulações — trajetória central mais estável
+mediana_sim <- apply(trajetorias, 1, median)
+lines(datas, mediana_sim, col = "gray20", lwd = 2, lty = 2)
+
+# Preço real por cima em destaque
+lines(datas, as.numeric(precos[1:n]), col = "darkgreen", lwd = 2)
+
+legend("topleft",
+       legend = c("Preço real (VALE3)", "Mediana das simulações",
+                  "Trajetórias simuladas", "IC 90%"),
+       col    = c("darkgreen", "gray20", "gray60", "steelblue"),
+       lwd    = c(2, 2, 1, 1.2),
+       lty    = c(1, 2, 1, 2),
+       bty    = "n")
