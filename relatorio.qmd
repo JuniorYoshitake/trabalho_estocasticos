@@ -187,7 +187,7 @@ O Processo de Wiener e a Teoria do Movimento Aleatório.
 
 # Resumo e Palavras-Chave
 
-RESUMO DO PROJETO AQUI...
+RESUMO DO PROJETO AQUI... teste te commit 
 
 **Palavras-chave:** Processo de Wiener; Processos Estocásticos; Movimento Geométrico Browniano; Finanças Quantitativas; Simulação Estocástica.
 
