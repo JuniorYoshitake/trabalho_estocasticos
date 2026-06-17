@@ -119,7 +119,7 @@ par(mfrow = c(1, 1))
 
 ### ------- 3. SIMULAÇÃO COM OS PARÂMETROS ------- ###
 
-set.seed(2026)
+set.seed(2028)
 
 ### Parâmetros estimados
 mu    <- 0.1647
